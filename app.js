@@ -1,19 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import TodoList from './TodoList';
-import Login from './Login';
-import Register from './Register';
+const express = require('express')
+const todoRoutes = require('./routes/todo.routes')
+const app = express()
+const mongodb = require('./mongodb/mongodb.connect')
 
-function App() {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <Route path="/todo" component={TodoList} />
-            </Switch>
-        </Router>
-    );
-}
+mongodb.connect();
 
-export default App;
+app.use(express.json())
+
+app.use('/todos', todoRoutes)
+
+app.use((error, req, res, next)=>{
+    console.log(error)
+    res.status(500).json({message: error.message})
+})
+
+
+app.get('/', (req, res) => {
+    res.send('express test')
+})
+
+
+
+module.exports = app

@@ -1,38 +1,37 @@
-const TodoController = require('../../controllers/todo.controller')
-const TodoModel = require('../../models/todo.model')
+const ToDoController = require('../../controllers/todo.controller')
+const ToDoModel = require('../../models/todo.model')
 const httpMocks = require('node-mocks-http')
-const newTodo = require('../mock-data/new-todo.json')
+const newTodo = require('../mock-data/new_todo.json')
 
-TodoModel.create = jest.fn()
+ToDoModel.create = jest.fn()
 
-let req,res,next
+let req, res, next
 beforeEach(() => {
     req = httpMocks.createRequest()
     res = httpMocks.createResponse()
     next = null
 })
 
-describe('TodoController.createTodo', () => {
+describe('ToDoController.createToDo', () => {
     beforeEach(() => {
         req.body = newTodo
     })
 
-    it('should have a createTodo function', () => {
-        expect(typeof TodoController.createTodo).toBe('function')
+    it('should have a createToDo function', async () => {
+        expect(typeof ToDoController.createToDo).toBe('function')
     })
-    it('should call TodoModel.create', () => {
-        req.body = newTodo
-        TodoController.createTodo(req, res, next)
-        expect(TodoModel.create).toBeCalledWith(newTodo)
+    it('should call ToDoModel.create', async () => {
+        await ToDoController.createToDo(req, res, next)
+        expect(ToDoModel.create).toBeCalledWith(newTodo)
     })
     it('should return 201 response code', () => {
-        TodoController.createTodo(req, res, next)
+        ToDoController.createToDo(req, res, next)
         expect(res.statusCode).toBe(201)
         expect(res._isEndCalled()).toBeTruthy()
     })
-    it('should return json body in response', () => {
-        TodoModel.create.mockReturnValue(newTodo)
-        TodoController.createTodo(req, res, next)
+    it('should return json body in response', async () => {
+        await ToDoModel.create.mockReturnValue(newTodo)
+        await ToDoController.createToDo(req, res, next)
         expect(res._getJSONData()).toStrictEqual(newTodo)
     })
-});
+})
