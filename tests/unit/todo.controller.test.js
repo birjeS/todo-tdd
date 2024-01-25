@@ -7,7 +7,10 @@ const allTodos = require('../mock_data/all-todos.json')
 ToDoModel.create = jest.fn()
 ToDoModel.find = jest.fn()
 ToDoModel.findById = jest.fn()
+ToDoModel.findById = jest.fn()
+ToDoModel.findByIdAndUpdate = jest.fn()
 
+const todoId = '65b243245c10517839901b23'
 let req, res, next
 beforeEach(() => {
     req = httpMocks.createRequest()
@@ -94,7 +97,7 @@ describe('ToDoController.createToDo', () => {
             it('should return 404 when item doesnt exist', async () => {
                 ToDoModel.findById.mockReturnValue(null)
                 await ToDoController.getTodoById(req, res, next)
-                expect(res.statusCode).toBe(404)
+                it('should return 404 when item doesnt exist', async () => {
                 expect(res._isEndCalled()).toBeTruthy()
             })
-});
+})
