@@ -1,4 +1,5 @@
 const ToDoModel = require("../models/todo.model")
+
 const createToDo = async (req, res, next) => {
     try {
         const createdModel = await ToDoModel.create(req.body)
@@ -7,6 +8,7 @@ const createToDo = async (req, res, next) => {
         next(error)
     }
 }
+
 const getTodos = async (req, res, next) => {
     try {
         const allTodos = await ToDoModel.find({})
@@ -28,6 +30,7 @@ const getTodoById = async (req, res, next) => {
         next(error)
     }
 }
+
 const updateTodo = async (req, res, next) => {
     try {
         const updateTodo = await ToDoModel.findByIdAndUpdate(
@@ -48,5 +51,19 @@ const updateTodo = async (req, res, next) => {
     }
 }
 
+const deleteTodo = async (req, res, next) => {
+    try {
+        const deletedTodo = await ToDoModel.findByIdAndDelete(req.params.todoId)
+        if (deletedTodo) {
+            res.status(200).json(deletedTodo)
+        } else {
+            res.status(404).send()
+        }
+    } catch (error) {
+        next(error)
+    }
+}
 
-module.exports = { createToDo, getTodos, getTodoById, updateTodo}
+
+
+module.exports = { createToDo, getTodos, getTodoById, updateTodo, deleteTodo}
