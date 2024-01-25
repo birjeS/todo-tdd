@@ -1,10 +1,19 @@
-const express = require('express')
-const app = express()
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import TodoList from './TodoList';
+import Login from './Login';
+import Register from './Register';
 
-app.get('/', (req, res) => {
-    res.send('express test')
-})
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <Route path="/todo" component={TodoList} />
+            </Switch>
+        </Router>
+    );
+}
 
-app.listen(3015,()=>{
-    console.log('Server is running')
-})
+export default App;
